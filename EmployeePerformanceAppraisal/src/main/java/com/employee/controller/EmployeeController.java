@@ -2,10 +2,12 @@ package com.employee.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,34 +23,30 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 	
-	@RequestMapping(value="/employee",method=RequestMethod.GET)
+	@GetMapping(value="/employee")
 	public @ResponseBody AllEmployeeResponse callInquiryAllDataService() {
-		AllEmployeeResponse response = employeeService.inquiryAllEmployeeService();
-		return response;
+		return employeeService.inquiryAllEmployeeService();
 	}
 
-	@RequestMapping(value="/employee/{nik}",method=RequestMethod.GET)
+	@GetMapping(value="/employee/{nik}")
 	public @ResponseBody DetailEmployeeResponse callInquiryDetailEmployeeService(@PathVariable String nik) {
-		DetailEmployeeResponse response = employeeService.inquiryDetailEmployeeService(nik);
-		return response;
+		
+		return employeeService.inquiryDetailEmployeeService(nik);
 	}
 
-	@RequestMapping(value="/employee",method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody BaseResponse callAddDataService(@RequestBody AddEmployeeRequest message) {
-		BaseResponse response = employeeService.addNewEmployeeService(message);
-		return response;
+	@PostMapping(value="/employee",consumes=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody BaseResponse callAddDataService(@RequestBody AddEmployeeRequest message) {		
+		return employeeService.addNewEmployeeService(message);
 	}
 
-	@RequestMapping(value="/employee/{nik}",method=RequestMethod.PUT,consumes=MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value="/employee/{nik}",consumes=MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody BaseResponse callUpdateEmployeeService(@PathVariable String nik, @RequestBody AddEmployeeRequest message) {
-		BaseResponse response = employeeService.updateEmployeeService(message, nik);
-		return response;
+		return employeeService.updateEmployeeService(message, nik);
 	}
 
-	@RequestMapping(value="/employee/{nik}",method=RequestMethod.DELETE)
+	@DeleteMapping(value="/employee/{nik}")
 	public @ResponseBody BaseResponse callDeleteEmployeeService(@PathVariable String nik) {
-		BaseResponse response = employeeService.deleteEmployeeService(nik);
-		return response;
+		return employeeService.deleteEmployeeService(nik);
 	}
 	
 }

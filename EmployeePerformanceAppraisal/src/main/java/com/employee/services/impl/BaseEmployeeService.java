@@ -23,7 +23,7 @@ public class BaseEmployeeService {
 	}
 	
 	protected String generateAlphabetPoint(Double avg, Double point) {
-		Double percent = 0.0;
+		Double percent;
 		Double different = point - avg;
 		
 		String grade = "";
@@ -47,17 +47,5 @@ public class BaseEmployeeService {
 		return grade;
 	}
 	
-	protected boolean isDataExist(Object obj) {
-		if (obj!=null) {
-			if (obj.getClass().equals(String.class)) {
-				if (!obj.toString().equals("")) {
-					return true;
-				}else {
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
-	}
+	
 }

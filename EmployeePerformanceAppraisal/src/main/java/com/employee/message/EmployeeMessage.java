@@ -1,10 +1,13 @@
 package com.employee.message;
 
+import java.util.Date;
+
 public class EmployeeMessage {
 	private String nik;
 	private String name;
 	private Double pointNumber;
 	private String pointAlphabet;
+	private Date dateOfBirth;
 	
 	public String getNik() {
 		return nik;
@@ -36,6 +39,14 @@ public class EmployeeMessage {
 
 	public void setPointAlphabet(String pointAlphabet) {
 		this.pointAlphabet = pointAlphabet;
+	}
+
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
 	}
 
 	

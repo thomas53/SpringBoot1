@@ -1,9 +1,9 @@
 package com.employee.services.impl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import org.hibernate.JDBCException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class EmployeeServiceImpl extends BaseEmployeeService implements Employee
 	public AllEmployeeResponse inquiryAllEmployeeService() {
 		AllEmployeeResponse response = new AllEmployeeResponse();
 		String responseCode = ResponseCodeConstant.DATA_NOT_FOUND;
-		List<EmployeeMessage> employeeMessages = new ArrayList<EmployeeMessage>();
+		List<EmployeeMessage> employeeMessages = new ArrayList<>();
 		
 		List<Employee> employees = employeeRepository.findAll();
 		
@@ -44,6 +44,7 @@ public class EmployeeServiceImpl extends BaseEmployeeService implements Employee
 				employeeMessage.setName(employee.getName());
 				employeeMessage.setNik(employee.getNik());
 				employeeMessage.setPointNumber(employee.getPointNumber());
+				employeeMessage.setDateOfBirth(employee.getDateOfBirth());
 				employeeMessage.setPointAlphabet(generateAlphabetPoint(avg, employee.getPointNumber()));
 				employeeMessages.add(employeeMessage);
 			}
@@ -69,6 +70,7 @@ public class EmployeeServiceImpl extends BaseEmployeeService implements Employee
 			employeeMessage = new EmployeeMessage();
 			employeeMessage.setName(employee.getName());
 			employeeMessage.setNik(employee.getNik());
+			employeeMessage.setDateOfBirth(employee.getDateOfBirth());
 			employeeMessage.setPointNumber(employee.getPointNumber());
 			employeeMessage.setPointAlphabet(generateAlphabetPoint(avg, employee.getPointNumber()));
 		}
@@ -95,9 +97,9 @@ public class EmployeeServiceImpl extends BaseEmployeeService implements Employee
 				employee.setPointNumber(message.getPoint());
 				
 				employeeRepository.save(employee);
-			} catch (Exception e) {
+			} catch (JDBCException e) {
 				responseCode = ResponseCodeConstant.ERROR_PROCESSING_TO_DATABASE;
-				log.debug("error : " + e.getStackTrace());
+				log.debug(e.getMessage());
 			}
 		}
 		
@@ -116,21 +118,17 @@ public class EmployeeServiceImpl extends BaseEmployeeService implements Employee
 			responseCode = isNikRegisterd(message, nik);
 			
 			if (responseCode.equals(ResponseCodeConstant.SUCCESS)) {
-				nik = isDataExist(message.getNik()) ? message.getNik() : employee.getNik();
-				String name = isDataExist(message.getName()) ? message.getName() : employee.getName();
-				Double pointNumber = isDataExist(message.getPoint()) ? message.getPoint() : employee.getPointNumber();
-				Date dateOfBirth = isDataExist(message.getDob()) ? message.getDob() : employee.getDateOfBirth();
 				
 				try {
-					employee.setDateOfBirth(dateOfBirth);
-					employee.setName(name);
-					employee.setNik(nik);
-					employee.setPointNumber(pointNumber);
+					employee.setNik(message.getNik());
+					employee.setName(message.getName());						
+					employee.setPointNumber(message.getPoint());
+					employee.setDateOfBirth(message.getDob());
 					
 					employeeRepository.save(employee);
-				} catch (Exception e) {
+				} catch (JDBCException e) {
 					responseCode = ResponseCodeConstant.ERROR_PROCESSING_TO_DATABASE;
-					log.debug("error : " + e.getStackTrace());
+					log.debug(e.getMessage());
 				}
 			}
 			
@@ -167,9 +165,9 @@ public class EmployeeServiceImpl extends BaseEmployeeService implements Employee
 			
 			try {
 				employeeRepository.delete(employee);
-			} catch (Exception e) {
+			} catch (JDBCException e) {
 				responseCode = ResponseCodeConstant.ERROR_PROCESSING_TO_DATABASE;
-				log.debug("error : " + e.getStackTrace());
+				log.debug(e.getMessage());
 			}
 		}
 		response.setResponseCode(responseCode);

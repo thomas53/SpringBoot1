@@ -37,7 +37,9 @@ public class Employee {
 	}
 
 	public void setNik(String nik) {
-		this.nik = nik;
+		if (nik!=null && !nik.equals("")) {
+			this.nik = nik;
+		}
 	}
 
 	public String getName() {
@@ -45,7 +47,9 @@ public class Employee {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		if (name!=null && !name.equals("")) {
+			this.name = name;
+		}
 	}
 
 	public Double getPointNumber() {
@@ -53,7 +57,9 @@ public class Employee {
 	}
 
 	public void setPointNumber(Double pointNumber) {
-		this.pointNumber = pointNumber;
+		if (pointNumber!=null) {
+			this.pointNumber = pointNumber;
+		}
 	}
 
 	public Date getDateOfBirth() {
@@ -61,7 +67,9 @@ public class Employee {
 	}
 
 	public void setDateOfBirth(Date dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
+		if (dateOfBirth!=null) {
+			this.dateOfBirth = dateOfBirth;
+		}
 	}
 
 	public Integer getId() {
