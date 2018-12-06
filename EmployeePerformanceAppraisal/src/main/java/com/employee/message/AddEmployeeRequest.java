@@ -3,6 +3,7 @@ package com.employee.message;
 import java.util.Date;
 
 public class AddEmployeeRequest {
+	
 	private String nik;
 	private String name;
 	private Date dob;

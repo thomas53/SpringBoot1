@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="employee")
@@ -15,8 +16,10 @@ public class Employee {
 	@GeneratedValue
 	private Integer id;
 	@Column(unique=true)
+	@NotNull
 	private String nik;
 	private String name;
+	@NotNull
 	private Double pointNumber;
 	private Date dateOfBirth;
 	

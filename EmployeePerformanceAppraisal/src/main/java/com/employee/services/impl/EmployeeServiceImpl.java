@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,8 @@ import com.employee.services.EmployeeService;
 @Service
 public class EmployeeServiceImpl extends BaseEmployeeService implements EmployeeService{
 
+	private static final Logger log = LoggerFactory.getLogger(EmployeeServiceImpl.class);
+	
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	
@@ -93,6 +97,7 @@ public class EmployeeServiceImpl extends BaseEmployeeService implements Employee
 				employeeRepository.save(employee);
 			} catch (Exception e) {
 				responseCode = ResponseCodeConstant.ERROR_PROCESSING_TO_DATABASE;
+				log.debug("error : " + e.getStackTrace());
 			}
 		}
 		
@@ -125,6 +130,7 @@ public class EmployeeServiceImpl extends BaseEmployeeService implements Employee
 					employeeRepository.save(employee);
 				} catch (Exception e) {
 					responseCode = ResponseCodeConstant.ERROR_PROCESSING_TO_DATABASE;
+					log.debug("error : " + e.getStackTrace());
 				}
 			}
 			
@@ -163,6 +169,7 @@ public class EmployeeServiceImpl extends BaseEmployeeService implements Employee
 				employeeRepository.delete(employee);
 			} catch (Exception e) {
 				responseCode = ResponseCodeConstant.ERROR_PROCESSING_TO_DATABASE;
+				log.debug("error : " + e.getStackTrace());
 			}
 		}
 		response.setResponseCode(responseCode);
